@@ -12,6 +12,7 @@ import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { AuthGuard } from 'src/common/guards/auth/auth.guard';
+import { FindByIdDto } from './dto/find-by-id.dto';
 
 @Controller('tasks')
 export class TaskController {
@@ -31,19 +32,19 @@ export class TaskController {
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  findOne(@Param('id') id: string) {
-    return this.taskService.findOne(id);
+  findOne(@Param() params: FindByIdDto) {
+    return this.taskService.findOne(params.id);
   }
 
-  @Put(':id')
+  @Put(':id') 
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(id, updateTaskDto);
+  update(@Param() params: FindByIdDto, @Body() updateTaskDto: UpdateTaskDto) {
+    return this.taskService.update(params.id, updateTaskDto);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard)
-  remove(@Param('id') id: string) {
-    return this.taskService.remove(id);
+  remove(@Param() params: FindByIdDto) {
+    return this.taskService.delete(params.id);
   }
 }
