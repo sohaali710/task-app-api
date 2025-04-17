@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 @Schema()
 export class Task {
@@ -12,8 +12,8 @@ export class Task {
   @Prop({ required: true })
   dueDate: Date;
 
-  @Prop({ default: false })
-  completed: boolean;
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: Types.ObjectId;
 }
 
 export type TaskDocument = HydratedDocument<Task>;

@@ -1,5 +1,5 @@
-import { Type } from "class-transformer";
-import { IsDate,  IsString, Length } from "class-validator";
+import { Type } from 'class-transformer';
+import { IsDate, IsString, Length } from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -10,9 +10,11 @@ export class CreateTaskDto {
   @Length(3)
   description: string;
 
-  @Type(() => Date) 
+  @Type(() => Date)
   @IsDate()
   dueDate: Date;
 
   completed: boolean;
+
+  user: string;
 }

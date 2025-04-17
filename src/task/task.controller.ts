@@ -7,6 +7,7 @@ import {
   Delete,
   UseGuards,
   Put,
+  Request,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -20,31 +21,35 @@ export class TaskController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+  create(@Body() createTaskDto: CreateTaskDto, @Request() req) {
+    return this.taskService.create(createTaskDto, req.user._id);
   }
 
   @Get()
   @UseGuards(AuthGuard)
-  findAll() {
-    return this.taskService.findAll();
+  findUserTasks(@Request() req) {
+    return this.taskService.findUserTasks(req.user._id);
   }
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  findOne(@Param() params: FindByIdDto) {
-    return this.taskService.findOne(params.id);
+  findOne(@Param() params: FindByIdDto, @Request() req) {
+    return this.taskService.findOne(params.id, req.user._id);
   }
 
-  @Put(':id') 
+  @Put(':id')
   @UseGuards(AuthGuard)
-  update(@Param() params: FindByIdDto, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(params.id, updateTaskDto);
+  update(
+    @Param() params: FindByIdDto,
+    @Body() updateTaskDto: UpdateTaskDto,
+    @Request() req,
+  ) {
+    return this.taskService.update(params.id, updateTaskDto, req.user._id);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard)
-  remove(@Param() params: FindByIdDto) {
-    return this.taskService.delete(params.id);
+  remove(@Param() params: FindByIdDto, @Request() req) {
+    return this.taskService.delete(params.id, req.user._id);
   }
 }
