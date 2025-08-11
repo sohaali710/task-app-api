@@ -1,5 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsString, Length } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -14,7 +20,11 @@ export class CreateTaskDto {
   @IsDate()
   dueDate: Date;
 
+  @IsOptional()
+  @IsBoolean()
   completed: boolean;
 
+  @IsOptional()
+  @IsString()
   user: string;
 }
