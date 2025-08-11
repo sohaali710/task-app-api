@@ -13,13 +13,14 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { User } from './schema/user.schema';
 import { AuthGuard } from 'src/common/guards/auth/auth.guard';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/register')
-  register(@Body() registerUserDto: RegisterUserDto): Promise<User> {
+  register(@Body() registerUserDto: RegisterUserDto): Promise<UserResponseDto> {
     return this.userService.register(registerUserDto);
   }
 
@@ -31,7 +32,7 @@ export class UserController {
 
   @Get()
   @UseGuards(AuthGuard)
-  findOne(@Request() req): Promise<User> {
+  findOne(@Request() req): Promise<UserResponseDto> {
     return this.userService.getUser(req.user._id);
   }
 }

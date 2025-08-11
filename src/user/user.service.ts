@@ -8,8 +8,9 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user.schema';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { UserResponseDto } from './dto/user-response.dto';
 
 const salt = 10;
 
@@ -20,7 +21,7 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
-  async register(registerUserDto: RegisterUserDto): Promise<User> {
+  async register(registerUserDto: RegisterUserDto): Promise<UserResponseDto> {
     const { email, password } = registerUserDto;
 
     const isEmailUsed = await this.userModel.findOne({ email });
@@ -29,7 +30,8 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(password, salt);
     registerUserDto.password = hashedPassword;
 
-    return await this.userModel.create(registerUserDto);
+    const newUser = await this.userModel.create(registerUserDto);
+    return new UserResponseDto(newUser.toObject());
   }
 
   async login(loginUserDto: LoginUserDto): Promise<{ token: string }> {
@@ -50,10 +52,10 @@ export class UserService {
     return { token };
   }
 
-  async getUser(userId: string): Promise<User> {
+  async getUser(userId: string): Promise<UserResponseDto> {
     const user = await this.userModel.findById(userId);
     if (!user) throw new BadRequestException('User not found');
 
-    return user;
+    return new UserResponseDto(user.toObject());
   }
 }
