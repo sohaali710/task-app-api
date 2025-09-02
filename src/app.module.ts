@@ -20,7 +20,7 @@ import { TaskModule } from './task/task.module';
   controllers: [AppController],
   providers: [
     AppService,
-    { provide: 'APP_INTERCEPTOR', useClass: ClassSerializerInterceptor },
+    // { provide: 'APP_INTERCEPTOR', useClass: ClassSerializerInterceptor },
   ],
 })
 export class AppModule {}
