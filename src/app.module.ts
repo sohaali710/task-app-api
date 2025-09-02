@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { MongoModule } from './database/mongo.module';
+import { MongoModule } from './database/mongo/mongo.module';
 import { TaskModule } from './task/task.module';
 import * as Joi from 'joi';
 
