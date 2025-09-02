@@ -14,6 +14,9 @@ export class Task {
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: Types.ObjectId;
+
+  @Prop({ default: false })
+  completed: boolean;
 }
 
 export type TaskDocument = HydratedDocument<Task>;
