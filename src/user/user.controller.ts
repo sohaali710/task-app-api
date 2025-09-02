@@ -32,7 +32,10 @@ export class UserController {
 
   @Get()
   @UseGuards(AuthGuard)
-  findOne(@Request() req): Promise<UserResponseDto> {
+  async findOne(@Request() req): Promise<UserResponseDto> {
+    // console.log(req.user);
+    // await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulate delay for testing timeout interceptor
+
     return this.userService.getUser(req.user._id);
   }
 }

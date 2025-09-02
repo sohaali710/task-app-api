@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -54,7 +55,7 @@ export class UserService {
 
   async getUser(userId: string): Promise<UserResponseDto> {
     const user = await this.userModel.findById(userId);
-    if (!user) throw new BadRequestException('User not found');
+    if (!user) throw new NotFoundException('User not found');
 
     return new UserResponseDto(user.toObject());
   }
